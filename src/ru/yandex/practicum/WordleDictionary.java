@@ -11,4 +11,11 @@ public class WordleDictionary {
 
     private List<String> words;
 
+    public WordleDictionary(List<String> listWords){
+        this.words = listWords;
+    }
+
+    public List<String> getWords() {
+        return words;
+    }
 }

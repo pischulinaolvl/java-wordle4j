@@ -20,7 +20,7 @@ public class Wordle {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        try(PrintWriter fileLog = new PrintWriter(new FileWriter("C:\\Users\\pischulinaov\\IdeaProjects\\java-wordle4j\\_Logs\\log.txt", StandardCharsets.UTF_8))) {
+        try (PrintWriter fileLog = new PrintWriter(new FileWriter("C:\\Users\\pischulinaov\\IdeaProjects\\java-wordle4j\\_Logs\\log.txt", StandardCharsets.UTF_8))) {
 
             WordleDictionary wordleDictionary = WordleDictionaryLoader.getWordleDictionary("C:\\Users\\pischulinaov\\IdeaProjects\\java-wordle4j\\words_ru.txt");
             fileLog.println("Получен справочник слов для игры");

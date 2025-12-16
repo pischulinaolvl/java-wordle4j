@@ -8,7 +8,13 @@ import java.util.List;
     также этот класс может содержать рутинные функции по сравнению слов, букв и т.д.
  */
 public class WordleDictionary {
-
     private List<String> words;
 
+    public WordleDictionary(List<String> listWords) {
+        this.words = listWords;
+    }
+
+    public List<String> getWords() {
+        return words;
+    }
 }

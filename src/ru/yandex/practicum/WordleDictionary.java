@@ -7,15 +7,14 @@ import java.util.List;
     его методы похожи на методы списка, но учитывают особенности игры
     также этот класс может содержать рутинные функции по сравнению слов, букв и т.д.
  */
-public class WordleDictionary{
-
+public class WordleDictionary {
     private List<String> words;
 
-    public WordleDictionary(List<String> listWords){
+    public WordleDictionary(List<String> listWords) {
         this.words = listWords;
     }
 
-    public List<String> getWords(){
+    public List<String> getWords() {
         return words;
     }
 }

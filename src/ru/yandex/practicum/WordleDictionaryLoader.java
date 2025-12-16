@@ -21,7 +21,7 @@ public class WordleDictionaryLoader {
             while (br.ready()) {
                 String line = br.readLine();
                 if (line.length() == 5) {
-                    words.add(line);
+                    words.add(line.toLowerCase().replace('ё', 'е'));
                 }
             }
         } catch (FileNotFoundException e) {

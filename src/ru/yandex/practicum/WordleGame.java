@@ -1,5 +1,6 @@
 package ru.yandex.practicum;
 
+import java.io.PrintWriter;
 import java.util.*;
 
 /*
@@ -54,25 +55,32 @@ public class WordleGame {
         return newWord.matches("^[а-яА-ЯёЁ]+$");
     }
 
-    public String tryWord(String newWord) throws WordleGameException{
+    public String tryWord(String newWord, PrintWriter fileLog) throws WordleGameException{
+        fileLog.println("Начало проверки вводного слова в методе tryWord");
+
+        newWord = newWord.toLowerCase().replace('ё', 'е');
         if (newWord.length()!=answer.length()){
             throw new WordleGameException("Необходимо ввести слово, состоящее из 5 букв. Попробуйте еще раз");
-        }
-        else if (!checkNewWordRussian(newWord)){
+        } else if (!checkNewWordRussian(newWord)){
             throw new WordleGameException("Необходимо ввести слово, состоящее только из букв русского алфавита. Попробуйте еще раз");
+        } else if (!dictionary.getWords().contains(newWord)){
+            throw new WordleGameException("Данное слово отсутствует в справочнике. Попробуйте еще раз");
         } else {
             wordsTry.add(newWord);
             steps = steps + 1;
-            return checkAnswer(newWord);
+            return checkAnswer(newWord, fileLog);
         }
     }
 
-    public String checkAnswer(String newWord){
+    public String checkAnswer(String newWord, PrintWriter fileLog){
+        fileLog.println("Проверка пробного слова в методе checkAnswer");
+        fileLog.println("Сравнение пробного слова с правильным ответом");
         if (newWord.equals(answer)){
             return "+++++";
         }
 
         StringBuilder result = new StringBuilder();
+        fileLog.println("Начало побуквенного анализа пробного слова с ответом");
         for (int i = 0; i < answer.length(); i++){
             if (answer.charAt(i) == newWord.charAt(i)){
                 maskAnswer.replace(i, i+1, answer.substring(i, i+1));
@@ -91,17 +99,21 @@ public class WordleGame {
                 }
             }
         }
+        fileLog.println("Завершение побуквенного анализа пробного слова с ответом");
         return result.toString();
     }
 
-    public String giveHint() throws WordleGameException{
+    public String giveHint(PrintWriter fileLog) throws WordleGameException{
         boolean b;
         List<String> words = dictionary.getWords();
+        fileLog.println("Начитали справочник слов");
         Collections.shuffle(words);
+        fileLog.println("Перемешали слова в справочнике");
         int i;
         String result = "";
         for (i = 0; i < words.size(); i++){
             result = words.get(i);
+            fileLog.println("Начитали " + (i+1) + " слово. Начали выполнение проверок");
             if (!result.matches(maskAnswer.toString())||wordsTry.contains(result)){
                 continue;
             }
@@ -123,6 +135,7 @@ public class WordleGame {
             if (!b){
                 continue;
             }
+            fileLog.println("Нашли подходящее слово");
             break;
         }
 

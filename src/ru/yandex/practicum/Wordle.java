@@ -1,6 +1,7 @@
 package ru.yandex.practicum;
 
 import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.io.IOException;
@@ -17,26 +18,28 @@ import java.util.Scanner;
  */
 public class Wordle {
 
+    public static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-        try (FileWriter fileLog = new FileWriter("C:\\Users\\pischulinaov\\IdeaProjects\\java-wordle4j\\_Logs\\log.txt", StandardCharsets.UTF_8)){
+        try (PrintWriter fileLog = new PrintWriter (new FileWriter("C:\\Users\\pischulinaov\\IdeaProjects\\java-wordle4j\\_Logs\\log.txt", StandardCharsets.UTF_8))){
 
             WordleDictionary wordleDictionary = WordleDictionaryLoader.getWordleDictionary("C:\\Users\\pischulinaov\\IdeaProjects\\java-wordle4j\\words_ru.txt");
-            fileLog.write("Получен справочник слов для игры");
+            fileLog.println("Получен справочник слов для игры");
 
             WordleGame wordleGame = new WordleGame(wordleDictionary);
+            fileLog.println("Создан экземпляр игры");
             wordleGame.printWelcomeWords();
-            Scanner scanner = new Scanner(System.in);
             String resultCheckWord = "";
 
+            fileLog.println("Запущен цикл по обработке попыток игрока");
             while (wordleGame.checkSteps()){
                 System.out.println("Попытка " + (wordleGame.getSteps()+1) + ". Введите слово");
                 String newWord = scanner.nextLine();
                 try {
                     if (newWord.isEmpty()){
-                        newWord = wordleGame.giveHint();
+                        newWord = wordleGame.giveHint(fileLog);
                         System.out.println("Подсказка: "+newWord);
                     }
-                    resultCheckWord = wordleGame.tryWord(newWord);
+                    resultCheckWord = wordleGame.tryWord(newWord, fileLog);
                     System.out.println("Результат проверки слова: " + resultCheckWord);
                     if (resultCheckWord.equals("+++++")){
                         break;
